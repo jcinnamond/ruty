@@ -100,15 +100,20 @@
 ;; Note that we have to call 'redisplay' after inserting the character
 ;; because emacs buffers output when running an interactive function.
 (defun ruty/insert (str)
-  (each-char str (lambda (c)
-		   (insert c)
-		   (redisplay)
-		   (ruty/pause))))
+  (ruty/each-char str (lambda (c)
+			(insert c)
+			(redisplay)
+			(ruty/pause))))
 
 ;; Insert a newline, using the current mode to sort out the indentation.
 (defun ruty/insert-newline ()
   (newline-and-indent)
   (ruty/pause))
+
+;; Calls a function repeatedly with each character in a string.
+(defun ruty/each-char (str fn)
+  (dotimes (i (length str))
+    (funcall fn (aref str i))))
 
 ;; Simulate a real typist by pausing for a random amount of time
 ;; between each charater. Most pauses will up to 0.13 seconds, but
