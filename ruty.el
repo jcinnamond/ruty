@@ -133,8 +133,9 @@
 ;; matching (and potential mismatches).
 
 ;; The parser returns any remaining (unparsed) string along with the
-;; structured data, so the parse-str function returns only the
-;; structured data. The remaining string will be blank at this point.
+;; structured data. This helper function returns only the structured
+;; data. The remaining string will be blank at this point beacuse we
+;; parse the whole input.
 (defun ruty/parse-str (str) (car (ruty/parse str)))
 
 ;; A recursive parser. It continually finds the next token until there
