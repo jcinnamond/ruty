@@ -203,7 +203,7 @@
 ;; to use ruby-mode to indent the next line, rather than retyping each
 ;; space.
 (defun ruty/state/newline (str)
-  (list (ruty/strip " *" (p/rest str)) '(newline)))
+  (list (ruty/strip " *" (ruty/rest str)) '(newline)))
 
 ;; When we encounter an 'end' we strip any leading space, again to
 ;; allow ruby-mode to indent the line.
