@@ -60,13 +60,14 @@
 ;; to rely on the mode's indentation, rather than typing each space
 ;; character. Anything else is just inserted verbatim.
 (defun ruty/insert-element (element)
-  (let ((type (car element))
-	(content-body (cdr element)))
-    (case type
-      ('pair           (apply 'ruty/insert-pair content-body))
-      ('multiline-pair (apply 'ruty/insert-multiline-pair content-body))
-      ('newline        (ruty/insert-newline))
-      (t               (ruty/insert type)))))
+  (if (listp element)
+      (let ((type (car element))
+	    (content-body (cdr element)))
+	(case type
+	  ('pair           (apply 'ruty/insert-pair content-body))
+	  ('multiline-pair (apply 'ruty/insert-multiline-pair content-body))
+	  ('newline        (ruty/insert-newline))))
+    (ruty/insert element)))
 
 ;; Insert balanced content by typing both the opening and closing
 ;; characters simultaneously, moving the point back to between the
@@ -194,7 +195,7 @@
 ;; that state (the 'recursive' part of 'recursive descent parser') and
 ;; then returning that parsed content along with the appropriate
 ;; token.
-(defun ruty/state/char (str) (ruty/state/simple str (list (ruty/first str))))
+(defun ruty/state/char (str) (ruty/state/simple str (ruty/first str)))
 (defun ruty/state/simple (str token) (list (ruty/rest str) token))
 
 ;; When we see a newline we strip any following space because we want
